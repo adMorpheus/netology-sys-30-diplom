@@ -1,5 +1,6 @@
-resource "yandex_compute_instance" "vm-1" {
-  name = "terraform1"
+resource "yandex_compute_instance" "web-server-01" {
+    name = "webserver-01"
+    zone = "ru-central1-a"
 
   resources {
     cores  = 2
@@ -8,7 +9,33 @@ resource "yandex_compute_instance" "vm-1" {
 
   boot_disk {
     initialize_params {
-      image_id = "fd88r89var8ukrlbmaki"
+      image_id = var.lemp_image_id
+    }
+  }
+
+  network_interface {
+    subnet_id = yandex_vpc_subnet.subnet-1.id
+    nat       = true
+  }
+
+  metadata = {
+    user-data = "${file("./meta.txt")}"
+  }
+
+}
+
+resource "yandex_compute_instance" "web-server-02" {
+  name = "webserver-02"
+  zone = "ru-central1-b"
+
+  resources {
+    cores  = 2
+    memory = 2
+  }
+
+  boot_disk {
+    initialize_params {
+      image_id = var.lemp_image_id
     }
   }
 
