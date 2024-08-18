@@ -1,6 +1,5 @@
 variable "yandex_cloud_token" {
   type = string
-  #  description = "Данная переменная потребует ввести секретный токен в консоли при запуске terraform plan/apply"
 }
 
 variable "yandex_cloud_id" {
@@ -13,4 +12,19 @@ variable "yandex_folder_id" {
 
 variable "lemp_image_id" {
   type = string
+}
+
+variable "zabbix_image_id" {
+  type = string
+  description = "debian 11"
+}
+
+variable "elasticsearch_image_id" {
+  type = string
+  description = "ubuntu 2204"
+}
+
+variable "kibana_image_id" {
+  type = string
+  description = "ubuntu 2204"
 }
