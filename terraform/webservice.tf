@@ -18,7 +18,6 @@ resource "yandex_compute_instance" "web-server-01" {
 
   network_interface {
     subnet_id = yandex_vpc_subnet.subnet-zone-1.id
-    nat       = true
   }
 
   metadata = {
@@ -45,7 +44,6 @@ resource "yandex_compute_instance" "web-server-02" {
 
   network_interface {
     subnet_id = yandex_vpc_subnet.subnet-zone-2.id
-    nat       = true
   }
 
   metadata = {
