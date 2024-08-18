@@ -18,7 +18,7 @@ resource "yandex_compute_instance" "bastion-host" {
   }
 
   network_interface {
-    subnet_id = yandex_vpc_subnet.subnet-zone-2.id
+    subnet_id = yandex_vpc_subnet.subnet-public-technician.id
   }
 
   metadata = {
@@ -35,7 +35,7 @@ resource "yandex_vpc_security_group" "private-sg" {
 
   ingress {
     protocol = "ANY"
-    v4_cidr_blocks = ["192.168.10.0/24", "192.168.20.0/24"]
+    v4_cidr_blocks = ["192.168.10.0/24", "192.168.20.0/24, 192.168.30.0/24, 192.168.100.0/24"]
   }
 
   egress {
@@ -65,6 +65,7 @@ resource "yandex_vpc_security_group" "load-balancer-sg" {
 resource "yandex_vpc_security_group" "bastion-host-sg" {
   name       = "bastion-host-secure-group"
   network_id = yandex_vpc_network.network.id
+
 
   ingress {
     protocol = "TCP"

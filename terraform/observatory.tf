@@ -15,7 +15,7 @@ resource "yandex_compute_instance" "zabbix-vm" {
     }
   }
   network_interface {
-    subnet_id = yandex_vpc_subnet.subnet-zone-2.id
+    subnet_id = yandex_vpc_subnet.subnet-public-technician.id
     nat = true
   }
   metadata = {
@@ -40,7 +40,7 @@ resource "yandex_compute_instance" "elasticsearch-vm" {
     }
   }
   network_interface {
-    subnet_id = yandex_vpc_subnet.subnet-zone-2.id
+    subnet_id = yandex_vpc_subnet.subnet-private-technician.id
   }
   metadata = {
     user-data = "${file("./meta.txt")}"
@@ -49,7 +49,7 @@ resource "yandex_compute_instance" "elasticsearch-vm" {
 
 # ------------------Kibana-------------
 resource "yandex_compute_instance" "kibana-vm" {
-  name="elasticsearch-vm"
+  name="kibana-vm"
   hostname = "kibana"
   zone = "ru-central1-b"
 
@@ -64,7 +64,7 @@ resource "yandex_compute_instance" "kibana-vm" {
     }
   }
   network_interface {
-    subnet_id = yandex_vpc_subnet.subnet-zone-2.id
+    subnet_id = yandex_vpc_subnet.subnet-public-technician.id
     nat = true
   }
   metadata = {

@@ -27,4 +27,11 @@ variable "elasticsearch_image_id" {
 variable "kibana_image_id" {
   type = string
   description = "ubuntu 2204"
+
+}
+
+variable "bastion_image_id" {
+  type = string
+  default = "fd8781facvdr5090ovu6"
+  description = "ubuntu 2204"
 }
