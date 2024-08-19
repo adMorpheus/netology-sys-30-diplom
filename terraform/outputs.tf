@@ -21,6 +21,7 @@ output "ws-2-eip" {
 output "zabbix-external-ip" {
   value = yandex_compute_instance.zabbix-vm.network_interface.0.nat_ip_address
 }
-#
-# output "load-balancer-external-ip" {
-#   value = yandex_alb_load_balancer.webserver-load-balancer.listener.0.endpoint.address
+
+output "load-balancer-external-ip" {
+  value = yandex_alb_load_balancer.webserver-load-balancer.listener.0.endpoint.0.address.0.external_ipv4_address.0.address
+}

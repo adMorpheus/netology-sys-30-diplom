@@ -35,7 +35,7 @@ resource "yandex_vpc_security_group" "private-sg" {
 
   ingress {
     protocol = "ANY"
-    v4_cidr_blocks = ["192.168.10.0/24", "192.168.20.0/24, 192.168.30.0/24, 192.168.100.0/24"]
+    v4_cidr_blocks = ["192.168.10.0/24", "192.168.20.0/24", "192.168.30.0/24", "192.168.100.0/24"]
   }
 
   egress {
