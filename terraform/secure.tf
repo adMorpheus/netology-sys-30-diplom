@@ -19,6 +19,8 @@ resource "yandex_compute_instance" "bastion-host" {
 
   network_interface {
     subnet_id = yandex_vpc_subnet.subnet-public-technician.id
+    nat = true
+    security_group_ids = [yandex_vpc_security_group.bastion-host-sg.id]
   }
 
   metadata = {
@@ -53,6 +55,11 @@ resource "yandex_vpc_security_group" "load-balancer-sg" {
     protocol = "TCP"
     v4_cidr_blocks = ["0.0.0.0/0"]
     port     = 80
+  }
+
+  ingress {
+    protocol         = "ANY"
+    predefined_target = "loadbalancer_healthchecks"
   }
 
   egress {

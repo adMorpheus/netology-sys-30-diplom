@@ -1,9 +1,9 @@
 #----------Webservers--------------
 
 resource "yandex_compute_instance" "web-server-01" {
-  name = "web-server-01"
+  name     = "web-server-01"
   hostname = "webserver01"
-  zone = "ru-central1-a"
+  zone     = "ru-central1-a"
 
   resources {
     cores         = 2
@@ -18,7 +18,8 @@ resource "yandex_compute_instance" "web-server-01" {
   }
 
   network_interface {
-    subnet_id = yandex_vpc_subnet.subnet-zone-1.id
+    subnet_id          = yandex_vpc_subnet.subnet-zone-1.id
+    security_group_ids = [yandex_vpc_security_group.private-sg.id]
   }
 
   metadata = {
@@ -28,9 +29,9 @@ resource "yandex_compute_instance" "web-server-01" {
 }
 
 resource "yandex_compute_instance" "web-server-02" {
-  name = "web-server-02"
+  name     = "web-server-02"
   hostname = "webserver02"
-  zone = "ru-central1-b"
+  zone     = "ru-central1-b"
 
   resources {
     cores         = 2
@@ -45,7 +46,8 @@ resource "yandex_compute_instance" "web-server-02" {
   }
 
   network_interface {
-    subnet_id = yandex_vpc_subnet.subnet-zone-2.id
+    subnet_id          = yandex_vpc_subnet.subnet-zone-2.id
+    security_group_ids = [yandex_vpc_security_group.private-sg.id]
   }
 
   metadata = {
@@ -74,9 +76,9 @@ resource "yandex_alb_target_group" "webservers-target-group" {
 resource "yandex_alb_backend_group" "webservers-backend-group" {
   name = "webservers-backend-group"
   http_backend {
-    name   = "webservers-http-backend"
-    weight = 1
-    port   = 80
+    name             = "webservers-http-backend"
+    weight           = 1
+    port             = 80
     target_group_ids = [yandex_alb_target_group.webservers-target-group.id]
     healthcheck {
       interval = "1s"
@@ -116,8 +118,9 @@ resource "yandex_alb_virtual_host" "webservers-virtual-host" {
 
 #----------Webservers-load-balancer-------------
 resource "yandex_alb_load_balancer" "webserver-load-balancer" {
-  name       = "webserver-load-balancer"
-  network_id = yandex_vpc_network.network.id
+  name               = "webserver-load-balancer"
+  network_id         = yandex_vpc_network.network.id
+  security_group_ids = [yandex_vpc_security_group.private-sg.id, yandex_vpc_security_group.load-balancer-sg.id]
   allocation_policy {
     location {
       subnet_id = yandex_vpc_subnet.subnet-public-technician.id
