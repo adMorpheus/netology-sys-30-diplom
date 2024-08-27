@@ -20,7 +20,7 @@ resource "yandex_compute_instance" "zabbix-vm" {
     security_group_ids = [yandex_vpc_security_group.private-sg.id,yandex_vpc_security_group.zabbix-sg.id]
   }
   metadata = {
-    user-data = "${file("./meta.txt")}"
+    user-data = "${file("./cloud-init-common.yaml")}"
   }
 }
 
@@ -45,7 +45,7 @@ resource "yandex_compute_instance" "elasticsearch-vm" {
     security_group_ids = [yandex_vpc_security_group.private-sg.id]
   }
   metadata = {
-    user-data = "${file("./meta.txt")}"
+    user-data = "${file("./cloud-init-common.yaml")}"
   }
 }
 
@@ -71,6 +71,6 @@ resource "yandex_compute_instance" "kibana-vm" {
     security_group_ids = [yandex_vpc_security_group.private-sg.id,yandex_vpc_security_group.kibana-sg.id]
   }
   metadata = {
-    user-data = "${file("./meta.txt")}"
+    user-data = "${file("./cloud-init-common.yaml")}"
   }
 }

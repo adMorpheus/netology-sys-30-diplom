@@ -1,0 +1,10 @@
+#cloud-config
+users:
+  - name: administrator
+    groups: sudo
+    shell: /bin/bash
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    ssh-authorized-keys:
+      - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBF9AbmGQOhjL8YxkHGqApF0LrcNAXjSRZnfj6A2w4DCmza7SZKha2fyJwBm2HxnIxFAOWk9YlV4Xo0DgM15dXkA= dubrovin_da@dubrovin_da
+
+package_update: true

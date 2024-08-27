@@ -1,0 +1,15 @@
+- name: Ensure Nginx is installed
+  apt:
+    name: nginx
+    state: present
+
+- name: Copy custom index.html to Nginx directory
+  copy:
+    src: ../files/index.html
+    dest: /var/www/html/index.nginx-debian.html
+
+- name: Restart Nginx to apply changes
+  systemd:
+    name: nginx
+    state: restarted
+    enabled: true

@@ -1,12 +1,19 @@
 ---
-- name: Run local tasks
-  hosts: 127.0.0.1
-  connection: local
+# - name: Run local tasks
+#   hosts: 127.0.0.1
+#   connection: local
+#   become: yes
+#   gather_facts: yes
+#
+#   tasks:
+#   - name: install mc
+#     apt:
+#       name: mc
+#       state: present
+#
+- name: Configure Web Servers
+  hosts: web
   become: yes
-  gather_facts: yes
-
-  tasks:
-  - name: install mc
-    apt:
-      name: mc
-      state: present
+  roles:
+    - webserver
+#     - filebeat

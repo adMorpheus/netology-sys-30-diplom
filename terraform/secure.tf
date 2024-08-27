@@ -24,7 +24,7 @@ resource "yandex_compute_instance" "bastion-host" {
   }
 
   metadata = {
-    user-data = "${file("./cloud-init.yaml")}"
+    user-data = "${file("./cloud-init-bastion.yaml")}"
   }
 
   connection {
@@ -39,9 +39,14 @@ resource "yandex_compute_instance" "bastion-host" {
     destination = "/home/administrator/ansible"
   }
 
+  provisioner "file" {
+    source      = "../ssh/diploma_common"
+    destination = "/home/administrator/.ssh/diploma_common"
+  }
+
   provisioner "remote-exec" {
     inline = [
-      "sudo apt install ansible -y", "cd /home/administrator/ansible/", "/usr/bin/ansible-playbook -i hosts site.yaml"
+      "sudo apt install ansible -y", "cd /home/administrator/ansible/", "chmod 400 /home/administrator/.ssh/diploma_common", "/usr/bin/ansible-playbook -i hosts site.yaml"
     ]
   }
 }

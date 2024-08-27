@@ -8,3 +8,5 @@ terraform/terraform.tfstate.backup
 terraform/.terraform.tfstate.lock.info
 /ssh/diploma_bastion
 /ssh/diploma_bastion.pub
+/ssh/diploma_common
+/ssh/diploma_common.pub

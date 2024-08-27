@@ -23,7 +23,7 @@ resource "yandex_compute_instance" "web-server-01" {
   }
 
   metadata = {
-    user-data = "${file("./meta.txt")}"
+    user-data = "${file("./cloud-init-common.yaml")}"
   }
 
 }
@@ -51,7 +51,7 @@ resource "yandex_compute_instance" "web-server-02" {
   }
 
   metadata = {
-    user-data = "${file("./meta.txt")}"
+    user-data = "${file("./cloud-init-common.yaml")}"
   }
 
 }
