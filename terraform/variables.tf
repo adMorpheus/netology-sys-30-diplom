@@ -35,3 +35,8 @@ variable "bastion_image_id" {
   default = "fd8781facvdr5090ovu6"
   description = "ubuntu 2204"
 }
+
+variable "bastion_ssh_public_key" {
+  type = string
+
+}

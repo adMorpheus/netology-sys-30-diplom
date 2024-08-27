@@ -2,6 +2,14 @@
 #  value = yandex_compute_instance.web-server[*].network_interface.0.ip_address
 #}
 #
+
+output "load-balancer-external-ip" {
+  value = yandex_alb_load_balancer.webserver-load-balancer.listener.0.endpoint.0.address.0.external_ipv4_address.0.address
+}
+
+output "bastion-host-external-ip" {
+  value = yandex_compute_instance.bastion-host.network_interface.0.nat_ip_address
+}
 output "ws-1-fqdn" {
   value = yandex_compute_instance.web-server-01.fqdn
 }
@@ -20,8 +28,4 @@ output "ws-2-eip" {
 
 output "zabbix-external-ip" {
   value = yandex_compute_instance.zabbix-vm.network_interface.0.nat_ip_address
-}
-
-output "load-balancer-external-ip" {
-  value = yandex_alb_load_balancer.webserver-load-balancer.listener.0.endpoint.0.address.0.external_ipv4_address.0.address
 }

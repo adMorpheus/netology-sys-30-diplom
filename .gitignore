@@ -6,3 +6,5 @@ terraform/meta.txt
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
 terraform/.terraform.tfstate.lock.info
+/ssh/diploma_bastion
+/ssh/diploma_bastion.pub

@@ -18,15 +18,32 @@ resource "yandex_compute_instance" "bastion-host" {
   }
 
   network_interface {
-    subnet_id = yandex_vpc_subnet.subnet-public-technician.id
-    nat = true
+    subnet_id          = yandex_vpc_subnet.subnet-public-technician.id
+    nat                = true
     security_group_ids = [yandex_vpc_security_group.bastion-host-sg.id]
   }
 
   metadata = {
-    user-data = "${file("./meta.txt")}"
+    user-data = "${file("./cloud-init.yaml")}"
   }
 
+  connection {
+    type        = "ssh"
+    user        = "administrator"
+    private_key = "${file("../ssh/diploma_bastion")}"
+    host        = "${self.network_interface.0.nat_ip_address}"
+  }
+
+  provisioner "file" {
+    source      = "../ansible"
+    destination = "/home/administrator/ansible"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt install ansible -y", "cd /home/administrator/ansible/", "/usr/bin/ansible-playbook -i hosts site.yaml"
+    ]
+  }
 }
 
 
@@ -36,12 +53,12 @@ resource "yandex_vpc_security_group" "private-sg" {
   network_id = yandex_vpc_network.network.id
 
   ingress {
-    protocol = "ANY"
+    protocol       = "ANY"
     v4_cidr_blocks = ["192.168.10.0/24", "192.168.20.0/24", "192.168.30.0/24", "192.168.100.0/24"]
   }
 
   egress {
-    protocol = "ANY"
+    protocol       = "ANY"
     v4_cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -52,18 +69,18 @@ resource "yandex_vpc_security_group" "load-balancer-sg" {
   network_id = yandex_vpc_network.network.id
 
   ingress {
-    protocol = "TCP"
+    protocol       = "TCP"
     v4_cidr_blocks = ["0.0.0.0/0"]
-    port     = 80
+    port           = 80
   }
 
   ingress {
-    protocol         = "ANY"
+    protocol          = "ANY"
     predefined_target = "loadbalancer_healthchecks"
   }
 
   egress {
-    protocol = "ANY"
+    protocol       = "ANY"
     v4_cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -75,13 +92,13 @@ resource "yandex_vpc_security_group" "bastion-host-sg" {
 
 
   ingress {
-    protocol = "TCP"
+    protocol       = "TCP"
     v4_cidr_blocks = ["0.0.0.0/0"]
-    port     = 22
+    port           = 22
   }
 
   egress {
-    protocol = "ANY"
+    protocol       = "ANY"
     v4_cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -92,13 +109,13 @@ resource "yandex_vpc_security_group" "zabbix-sg" {
   network_id = yandex_vpc_network.network.id
 
   ingress {
-    protocol = "TCP"
+    protocol       = "TCP"
     v4_cidr_blocks = ["0.0.0.0/0"]
-    port     = 8080
+    port           = 8080
   }
 
   egress {
-    protocol = "ANY"
+    protocol       = "ANY"
     v4_cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -109,13 +126,13 @@ resource "yandex_vpc_security_group" "kibana-sg" {
   network_id = yandex_vpc_network.network.id
 
   ingress {
-    protocol = "TCP"
+    protocol       = "TCP"
     v4_cidr_blocks = ["0.0.0.0/0"]
-    port     = 5601
+    port           = 5601
   }
 
   egress {
-    protocol = "ANY"
+    protocol       = "ANY"
     v4_cidr_blocks = ["0.0.0.0/0"]
   }
 }
