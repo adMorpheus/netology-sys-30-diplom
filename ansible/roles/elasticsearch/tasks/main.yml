@@ -1,0 +1,29 @@
+#echo "deb [trusted=yes] https://mirror.yandex.ru/mirrors/elastic/8/ stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+- name: Add Yandex mirror for Elasticsearch 8.x
+  apt_repository:
+    repo: 'deb [trusted=yes] https://mirror.yandex.ru/mirrors/elastic/8/ stable main'
+    filename: 'elastic-8.x'
+    state: present
+
+
+- name: Install Elasticsearch
+  apt:
+    name: elasticsearch
+    state: present
+    update_cache: yes
+
+- name: Copy elasticsearch's config file
+  copy:
+    src: ../files/elasticsearch.yml
+    dest: /etc/elasticsearch/elasticsearch.yml
+
+#- name: Pause for 30 seconds
+#  ansible.builtin.pause:
+#    seconds: 30
+
+- name: Ensure Elasticsearch is started and enabled on boot
+  ansible.builtin.service:
+    name: elasticsearch.service
+    enabled: yes
+    state: started
+#    daemon_reload: yes

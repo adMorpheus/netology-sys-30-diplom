@@ -4,6 +4,9 @@ resource "yandex_compute_instance" "web-server-01" {
   name     = "web-server-01"
   hostname = "webserver01"
   zone     = "ru-central1-a"
+  scheduling_policy {
+    preemptible = true
+  }
 
   resources {
     cores         = 2
@@ -32,6 +35,9 @@ resource "yandex_compute_instance" "web-server-02" {
   name     = "web-server-02"
   hostname = "webserver02"
   zone     = "ru-central1-b"
+  scheduling_policy {
+    preemptible = true
+  }
 
   resources {
     cores         = 2

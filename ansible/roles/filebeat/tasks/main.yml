@@ -1,0 +1,23 @@
+- name: Add Yandex mirror for Elasticsearch 8.x
+  apt_repository:
+    repo: 'deb [trusted=yes] https://mirror.yandex.ru/mirrors/elastic/8/ stable main'
+    filename: 'elastic-8.x'
+    state: present
+
+- name: install Filebeat
+  apt:
+    name: filebeat
+    state: present
+    update_cache: yes
+
+- name: Copy config file
+  copy:
+    src: ../files/filebeat.yml
+    dest: /etc/filebeat/filebeat.yml
+
+
+- name: Ensure Filebeat is started and enabled on boot
+  ansible.builtin.service:
+    name: filebeat.service
+    enabled: yes
+    state: started

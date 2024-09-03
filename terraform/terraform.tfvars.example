@@ -7,7 +7,7 @@ yandex_folder_id =
 #------------Images-------------
 #TODO: move to default variables
 lemp_image_id = "fd8omcd35pria0vgr66m"
-zabbix_image_id = "fd8ee6ilv04vcejfrm2r" #debian 11
+zabbix_image_id = "fd8781facvdr5090ovu6" #ubuntu 2204
 elasticsearch_image_id = "fd8781facvdr5090ovu6" #ubuntu 2204
 kibana_image_id = "fd8781facvdr5090ovu6" #ubuntu 2204
 

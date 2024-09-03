@@ -1,0 +1,29 @@
+- name: Add Yandex mirror for Elasticsearch 8.x
+  apt_repository:
+    repo: 'deb [trusted=yes] https://mirror.yandex.ru/mirrors/elastic/8/ stable main'
+    filename: 'elastic-8.x'
+    state: present
+
+
+- name: Install Kibana
+  apt:
+    name: kibana
+    state: present
+    update_cache: yes
+
+- name: Copy config file
+  copy:
+    src: ../files/kibana.yml
+    dest: /etc/kibana/kibana.yml
+
+#- name: Pause for 30 seconds
+#  ansible.builtin.pause:
+#    seconds: 30
+
+
+- name: Ensure Kibana is started and enabled on boot
+  ansible.builtin.service:
+    name: kibana.service
+    enabled: yes
+    state: started
+

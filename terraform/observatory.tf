@@ -3,6 +3,9 @@ resource "yandex_compute_instance" "zabbix-vm" {
   name = "zabbix-vm"
   hostname = "zabbix"
   zone = "ru-central1-b"
+  scheduling_policy {
+    preemptible = true
+  }
 
   resources {
     cores  = 2
@@ -29,7 +32,9 @@ resource "yandex_compute_instance" "elasticsearch-vm" {
   name="elasticsearch-vm"
   hostname = "elasticsearch"
   zone = "ru-central1-b"
-
+  scheduling_policy {
+    preemptible = true
+  }
   resources {
     cores  = 2
     memory = 2
@@ -54,6 +59,10 @@ resource "yandex_compute_instance" "kibana-vm" {
   name="kibana-vm"
   hostname = "kibana"
   zone = "ru-central1-b"
+  scheduling_policy {
+    preemptible = true
+  }
+
 
   resources {
     cores  = 2

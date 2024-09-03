@@ -1,19 +1,37 @@
 ---
-# - name: Run local tasks
-#   hosts: 127.0.0.1
-#   connection: local
+# - name: Configure Web Servers
+#   hosts: web
 #   become: yes
-#   gather_facts: yes
+#   roles:
+#     - webserver
+# # #     - filebeat
 #
-#   tasks:
-#   - name: install mc
-#     apt:
-#       name: mc
-#       state: present
-#
-- name: Configure Web Servers
+# - name: configure zabbix server
+#   hosts: zabbix-server
+#   become: yes
+#   vars:
+#     mysql_root_password: "mysqlrootpassword"
+#     zabbix_db_name: "zabbix"
+#     zabbix_db_user: "zabbix"
+#     zabbix_db_password: "zabbixdbpassword"
+#     zabbix_repo: "https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-1+ubuntu22.04_all.deb"
+#   roles:
+#   - zabbix
+
+- name: Install elasticsearch
+  hosts: elasticsearch
+  become: yes
+  roles:
+    - elasticsearch
+
+- name: Install Kibana
+  hosts: kibana
+  become: yes
+  roles:
+    - kibana
+
+- name: Deploy Filebeat
   hosts: web
   become: yes
   roles:
-    - webserver
-#     - filebeat
+    - filebeat
