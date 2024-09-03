@@ -7,4 +7,10 @@ users:
     ssh-authorized-keys:
       - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBy6fCligAiG5XmH0aXUJygpDaZhBcXM/oZFBzfh6y5l3GNmJ2MJCHBKWmQ83cCAwoekmzrsjlmCHRRVRTwhUQk= dubrovin_da@dubrovin_da
 
+write_files:
+  - path: /etc/sudoers.d/administrator
+    content: |
+      administrator ALL=(ALL) NOPASSWD:ALL
+    permissions: '0440'
+
 package_update: true
