@@ -5,7 +5,7 @@ resource "yandex_compute_instance" "bastion-host" {
   hostname = "bastion"
   zone     = "ru-central1-b"
   scheduling_policy {
-    preemptible = true
+    preemptible = false
   }
 
   resources {
@@ -52,14 +52,7 @@ resource "yandex_compute_instance" "bastion-host" {
       "sudo apt install ansible -y",
       "cd /home/administrator/ansible/",
       "chmod 400 /home/administrator/.ssh/diploma_common",
-      #      "sudo apt install build-essential libssl-dev libffi-dev python3-dev libmysqlclient-dev pkg-config",
-      #      "ansible-galaxy collection install community.mysql",
-      #      "sudo apt install python3-pip -y",
-      #      "sudo apt install python3-mysqldb -y",
-      #      "sudo apt install libmysqlclient-dev -y",
-      #      "sudo pip3 install pymysql --user",
-      #      "sudo pip install mysqlclient",
-      "/usr/bin/ansible-playbook -i hosts site.yaml"
+#      "/usr/bin/ansible-playbook -i hosts site.yaml"
     ]
   }
 }
@@ -130,6 +123,12 @@ resource "yandex_vpc_security_group" "zabbix-sg" {
     protocol       = "TCP"
     v4_cidr_blocks = ["0.0.0.0/0"]
     port           = 8080
+  }
+
+  ingress {
+    protocol       = "TCP"
+    v4_cidr_blocks = ["0.0.0.0/0"]
+    port           = 10051
   }
 
   egress {
