@@ -1,23 +1,4 @@
 ---
-# - name: Configure Web Servers
-#   hosts: web
-#   become: yes
-#   roles:
-#     - webserver
-# # #     - filebeat
-#
-# - name: configure zabbix server
-#   hosts: zabbix-server
-#   become: yes
-#   vars:
-#     mysql_root_password: "mysqlrootpassword"
-#     zabbix_db_name: "zabbix"
-#     zabbix_db_user: "zabbix"
-#     zabbix_db_password: "zabbixdbpassword"
-#     zabbix_repo: "https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-1+ubuntu22.04_all.deb"
-#   roles:
-#   - zabbix
-
 - name: Install elasticsearch
   hosts: elasticsearch
   become: yes
@@ -35,3 +16,29 @@
   become: yes
   roles:
     - filebeat
+
+- name: deploy webservices
+  hosts: web
+  become: yes
+  roles:
+    - webserver
+
+
+- name: deploy zabbix
+  hosts: zabbix
+  become: yes
+  vars:
+    mysql_password: 'mysecretpass'
+  roles:
+    - zabbix-server
+
+- name: deploy zabbix agent
+  hosts:
+    - elasticsearch_servers
+    - kibana_servers
+    - web
+    - bastion
+  become: yes
+  roles:
+    - zabbix-agent
+

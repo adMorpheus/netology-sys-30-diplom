@@ -1,0 +1,27 @@
+---
+- name: install zabbix-agent
+  apt:
+    name:
+      - zabbix-agent
+    state: present
+
+- name: copy configuration file
+  copy:
+    src: ../files/zabbix_agentd.conf
+    dest: /etc/zabbix/zabbix_agentd.conf
+
+- name: accept agent port
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: 10050
+    jump: ACCEPT
+  become: yes
+
+- name: ensure zabbix-agent is restarted and enabled on boot
+  service:
+    name: zabbix-agent.service
+    enabled: yes
+    state: restarted
+
+    #sudo iptables -A INPUT -p tcp --dport 10050 -j ACCEPT
