@@ -8,7 +8,7 @@
 [kibana_servers]
    kibana ansible_host=kibana.ru-central1.internal
 [bastion]
-  bastion-host ansible_host=bastion.ru-central1.internal
+   bastion-host ansible_connection=local
 
 
 

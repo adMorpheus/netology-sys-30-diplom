@@ -23,7 +23,7 @@ resource "yandex_compute_instance" "bastion-host" {
   network_interface {
     subnet_id          = yandex_vpc_subnet.subnet-public-technician.id
     nat                = true
-    security_group_ids = [yandex_vpc_security_group.bastion-host-sg.id]
+    security_group_ids = [yandex_vpc_security_group.bastion-host-sg.id, yandex_vpc_security_group.private-sg.id]
   }
 
   metadata = {
@@ -52,7 +52,7 @@ resource "yandex_compute_instance" "bastion-host" {
       "sudo apt install ansible -y",
       "cd /home/administrator/ansible/",
       "chmod 400 /home/administrator/.ssh/diploma_common",
-#      "/usr/bin/ansible-playbook -i hosts site.yaml"
+      "/usr/bin/ansible-playbook -i hosts site.yaml"
     ]
   }
 }

@@ -66,6 +66,7 @@
   community.mysql.mysql_db:
     name: zabbix
     state: import
+    encoding: "utf8mb4"
     target: /usr/share/zabbix-sql-scripts/mysql/server.sql.gz
     login_unix_socket: /run/mysqld/mysqld.sock
 
